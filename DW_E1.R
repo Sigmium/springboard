@@ -5,7 +5,6 @@ library(dplyr)
 library(readr)
 library(devtools)
 
-# change
 # load source data file
 refine_original <- read_csv("/Users/donaldgennetten/Documents/Programing/Springboard_DW_E1/ refine_original.csv")
 
@@ -23,7 +22,7 @@ mutate(company = sub('uni.*','unilever',company)) %>%
 # separate product_code and product_number then join product_categories
 separate_('Product code / number', into = c('product_code','product_number'), sep = "-") %>%
   
-# create product category
+# create product category and apply category names
 refine_clean$product_category <- refine_clean$product_code %>%
   +recode(refine_clean$product_category, p = "Smartphone", v = "TV", x = "Laptop", q = "Tablet") %>%
   
