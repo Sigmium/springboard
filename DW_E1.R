@@ -5,6 +5,7 @@ library(dplyr)
 library(readr)
 library(devtools)
 
+# change
 # load source data file
 refine_original <- read_csv("/Users/donaldgennetten/Documents/Programing/Springboard_DW_E1/ refine_original.csv")
 
