@@ -24,7 +24,7 @@ separate_('Product code / number', into = c('product_code','product_number'), se
   
 # create product category and apply category names
 refine_clean$product_category <- refine_clean$product_code %>%
-  +recode(refine_clean$product_category, p = "Smartphone", v = "TV", x = "Laptop", q = "Tablet") %>%
+  recode(refine_clean$product_category, p = "Smartphone", v = "TV", x = "Laptop", q = "Tablet") %>%
   
 #create full_address for geocoding
 unite(full_address, address:country, sep = ',') %>%
