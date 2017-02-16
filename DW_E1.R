@@ -6,7 +6,7 @@ library(readr)
 library(devtools)
 
 # load source data file
-refine_original <- read_csv("/Users/donaldgennetten/Documents/Programing/Springboard_DW_E1/ refine_original.csv")
+refine_original <- read_csv("/Users/donaldgennetten/Documents/Programing/Springboard/ refine_original.csv")
 
 # define output file
 refine_clean <- refine_original %>%
@@ -20,24 +20,22 @@ mutate(company = sub('van.*','van houten',company)) %>%
 mutate(company = sub('uni.*','unilever',company)) %>%
   
 # separate product_code and product_number then join product_categories
-separate_('Product code / number', into = c('product_code','product_number'), sep = "-") %>%
-  
-# create product category and apply category names
-refine_clean$product_category <- refine_clean$product_code %>%
-  recode(refine_clean$product_category, p = "Smartphone", v = "TV", x = "Laptop", q = "Tablet") %>%
-  
+separate('Product code / number', into = c('product_code','product_number'), sep = "-") 
+refine_clean$product_category <- refine_clean$product_code
+refine_clean$product_category <- sub("[p]", "Smartphone", refine_clean$product_category) 
+refine_clean$product_category <- sub("[v]", "TV", refine_clean$product_category) 
+refine_clean$product_category <- sub("[x]", "Laptop", refine_clean$product_category) 
+refine_clean$product_category <- sub("[q]", "Tablet", refine_clean$product_category) 
+
 #create full_address for geocoding
-unite(full_address, address:country, sep = ',') %>%
-  
+refine_clean <- unite(refine_clean, full_address, address, city, country, sep = ", ", remove = FALSE)
+
 #create binary variables
-mutate(company_philips = ifelse(company == 'philips',1,0)) %>%
-mutate(company_akzo = ifelse(company == 'akzo',1,0)) %>%
-mutate(company_van_houten = ifelse(company == 'van houten',1,0)) %>%
-mutate(company_unilever = ifelse(company == 'unilever',1,0)) %>%
-mutate(product_smartphone = ifelse(product_category == 'Smartphone',1,0)) %>%
-mutate(product_tv = ifelse(product_category == 'TV',1,0)) %>%
-mutate(product_laptop = ifelse(product_category == 'Laptop',1,0)) %>%
-mutate(product_tablet = ifelse(product_category == 'Tablet',1,0)) %>%
-  
-#remove redundant variables
-select(-c(company, product_code, product_category))
+refine_clean <- mutate(refine_clean, company_philips = ifelse(company == 'philips',1,0)) 
+refine_clean <- mutate(refine_clean, company_akzo = ifelse(company == 'akzo',1,0)) 
+refine_clean <- mutate(refine_clean, company_van_houten = ifelse(company == 'van houten',1,0)) 
+refine_clean <- mutate(refine_clean, company_unilever = ifelse(company == 'unilever',1,0)) 
+refine_clean <- mutate(refine_clean, product_smartphone = ifelse(product_category == 'Smartphone',1,0)) 
+refine_clean <- mutate(refine_clean, product_tv = ifelse(product_category == 'TV',1,0)) 
+refine_clean <- mutate(refine_clean, product_laptop = ifelse(product_category == 'Laptop',1,0)) 
+refine_clean <- mutate(refine_clean, product_tablet = ifelse(product_category == 'Tablet',1,0)) 
