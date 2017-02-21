@@ -56,7 +56,7 @@ titanic_clean$boat[is.na(titanic_clean$boat)] <- "N/A"
  # titanic_clean$has_cabin_number[is.na(titanic_clean$has_cabin_number)] <- "0"
 
 titanic_clean$has_cabin_number <- ifelse(titanic_clean$cabin =="", "0", "1")
-titanic_clean$has_cabin_number[is.na(titanic_clean$cabin)] <- 0 %>%  
+titanic_clean$has_cabin_number[is.na(titanic_clean$cabin)] <- 0 
 
 # 6: Submit the project on Github
 # github.com/Sigmium/springboard
